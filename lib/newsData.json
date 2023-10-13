@@ -1,0 +1,35 @@
+{
+  "news": [
+    {
+      "id": "1",
+      "name": "БЕСПЛАТНЫЕ СПОСОБЫ SMM-ПРОДВИЖЕНИЯ, ДОСТУПНЫЕ КАЖДОМУ",
+      "image": "https://webstripe.ru/blog/besplatnye-sposoby-smm-prodvizheniya-dostupnye-kazhdomu",
+      "date": "29.08.2023"
+    },
+    {
+      "id": "2",
+      "name": "ЭВОЛЮЦИЯ SEO: АДАПТАЦИЯ К ИЗМЕНЕНИЯМ",
+      "image": "https://webstripe.ru/blog/evolyutsiya-seo-adaptatsiya-k-izmeneniyam",
+      "date": "10.05.2023",
+      "description": "Рассмотрим бесплатные способы продвижения через Вконтакте, которые помогут повысить узнаваемость бренда, привлечь клиентов и улучшить взаимодействие с целевой аудиторией."
+    },
+    {
+      "id": "3",
+      "name": "8 СПОСОБОВ ОЦЕНИТЬ ЭФФЕКТИВНОСТЬ SMM-ПРОДВИЖЕНИЯ",
+      "image": "https://webstripe.ru/blog/8-sposobov-otsenit-effektivnost-smm-prodvizheniya",
+      "date": "05.05.2023"
+    },
+    {
+      "id": "4",
+      "name": "5 ПРИЧИН СДЕЛАТЬ РЕДИЗАЙН САЙТА",
+      "image": "https://webstripe.ru/blog/5-prichin-sdelat-redizayn-sayta",
+      "date": "28.04.2023"
+    },
+    {
+      "id": "5",
+      "name": "ВЛИЯНИЕ ПОЛЬЗОВАТЕЛЬСКОГО ОПЫТА НА SEO: КАК ОПТИМИЗИРОВАТЬ САЙТ ДЛЯ ЛУЧШЕГО UX",
+      "image": "https://webstripe.ru/blog/vliyanie-polzovatelskogo-opyta-na-seo-kak-optimizirovat-sayt-dlya-luchshego-ux",
+      "date": "17.04.2023"
+    }
+  ]
+}
