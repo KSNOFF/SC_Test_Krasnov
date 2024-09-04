@@ -65,10 +65,9 @@ class _SplashScreenState extends State<SplashScreen> {
     if (prefs.containsKey('number')) {
       String? pnumber = prefs.getString('number');
       print(pnumber);
-
-      Timer(const Duration(seconds: 2), () => context.go('/news'));
+      Timer(const Duration(seconds: 3), () => context.go('/news'));
     } else {
-      Timer(const Duration(seconds: 2), () => context.go('/login'));
+      Timer(const Duration(seconds: 3), () => context.go('/login'));
     }
   }
 
@@ -108,16 +107,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  TextEditingController numbercontroller = TextEditingController();
   // Функция для обработки нажатия кнопки "Войти"
   Future<void> handleLogin() async {
-    String pnumber = numbercontroller.text; // Получаем текст из поля ввода
+    String pnumber = numbercontroller.text;
     print(pnumber);
     if (pnumber == '911') {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-                title: const Text("Что-то пошло не так",
+            return const AlertDialog(
+                title: Text("Что-то пошло не так",
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.ltr,
                     style: TextStyle(
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w400,
                     )),
                 content: SingleChildScrollView(
-                    child: ListBody(children: const <Widget>[
+                    child: ListBody(children: <Widget>[
                   Text("Проверьте введенные Вами данные, номер 911 недопустим",
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
@@ -139,12 +140,12 @@ class _LoginPageState extends State<LoginPage> {
                       ))
                 ])));
           });
-    } else if (pnumber == '') {
+    } else if (pnumber.isEmpty || pnumber.length < 11 || pnumber.length > 13) {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-                title: const Text("Что-то пошло не так",
+            return const AlertDialog(
+                title: Text("Что-то пошло не так",
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.ltr,
                     style: TextStyle(
@@ -154,22 +155,21 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.w400,
                     )),
                 content: SingleChildScrollView(
-                    child: ListBody(children: const <Widget>[
-                  Text("Введите номер",
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 54, 54, 54),
-                        fontSize: 14,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w400,
-                      ))
-                ])));
+                    child: ListBody(children: <Widget>[
+                      Text("Введите полный номер",
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.ltr,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 54, 54, 54),
+                            fontSize: 14,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w400,
+                          ))
+                    ])));
           });
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('number', pnumber);
-
       context.go('/news');
     }
   }
@@ -208,7 +208,9 @@ class _LoginPageState extends State<LoginPage> {
                         numbercontroller.clear();
                       },
                     ),
-                  )),
+                  )
+
+              ),
             ),
             Container(
                 margin: const EdgeInsets.only(left: 24),
@@ -437,6 +439,7 @@ class AccPage extends StatefulWidget {
 }
 
 class _AccPageState extends State<AccPage> {
+  TextEditingController numbercontroller = TextEditingController();
   Future<void> handleAcc() async {
     String pnumber = numbercontroller.text;
     print(pnumber);
@@ -444,8 +447,8 @@ class _AccPageState extends State<AccPage> {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-                title: const Text("Что-то пошло не так",
+            return const AlertDialog(
+                title: Text("Что-то пошло не так",
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.ltr,
                     style: TextStyle(
@@ -455,7 +458,7 @@ class _AccPageState extends State<AccPage> {
                       fontWeight: FontWeight.w400,
                     )),
                 content: SingleChildScrollView(
-                    child: ListBody(children: const <Widget>[
+                    child: ListBody(children: <Widget>[
                   Text("Проверьте введенные Вами данные, номер 911 недопустим",
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.ltr,
@@ -467,12 +470,13 @@ class _AccPageState extends State<AccPage> {
                       ))
                 ])));
           });
-    } else if (pnumber == '') {
+    }
+    else if (pnumber.isEmpty || pnumber.length < 11 || pnumber.length > 13) {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-                title: const Text("Что-то пошло не так",
+            return const AlertDialog(
+                title: Text("Что-то пошло не так",
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.ltr,
                     style: TextStyle(
@@ -482,26 +486,26 @@ class _AccPageState extends State<AccPage> {
                       fontWeight: FontWeight.w400,
                     )),
                 content: SingleChildScrollView(
-                    child: ListBody(children: const <Widget>[
-                  Text("Введите номер",
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 54, 54, 54),
-                        fontSize: 14,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w400,
-                      ))
-                ])));
+                    child: ListBody(children: <Widget>[
+                      Text("Введите полный номер",
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.ltr,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 54, 54, 54),
+                            fontSize: 14,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w400,
+                          ))
+                    ])));
           });
-    } else {
+    }else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('number', pnumber);
       print(pnumber);
     }
   }
 
-  // Функция для обработки нажатия кнопки "сохранить"
+  // Функция для обработки нажатия кнопки "Выйти"
   Future<void> exitAcc() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('number');
