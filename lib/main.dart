@@ -8,6 +8,8 @@ import 'request.dart';
 import 'newsDataModel.dart';
 
 TextEditingController numbercontroller = TextEditingController();
+String? permnumber;
+Future<List<News>> newscards = getNews();
 
 void main() {
   runApp(MyApp());
@@ -64,6 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('number')) {
       String? pnumber = prefs.getString('number');
+      getNews();
+      permnumber = pnumber;
       print(pnumber);
       Timer(const Duration(seconds: 3), () => context.go('/news'));
     } else {
@@ -107,7 +111,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   TextEditingController numbercontroller = TextEditingController();
   // Функция для обработки нажатия кнопки "Войти"
   Future<void> handleLogin() async {
@@ -156,19 +159,22 @@ class _LoginPageState extends State<LoginPage> {
                     )),
                 content: SingleChildScrollView(
                     child: ListBody(children: <Widget>[
-                      Text("Введите полный номер",
-                          textAlign: TextAlign.center,
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            fontSize: 14,
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w400,
-                          ))
-                    ])));
+                  Text("Введите полный номер",
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 54, 54, 54),
+                        fontSize: 14,
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w400,
+                      ))
+                ])));
           });
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      permnumber = pnumber;
+      print(permnumber);
+      getNews();
       await prefs.setString('number', pnumber);
       context.go('/news');
     }
@@ -200,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: "Номер телефона",
-                    hintText: "Ваш номер телефона",
+                    hintText: "+# (###) ###-##-##",
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
@@ -208,9 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                         numbercontroller.clear();
                       },
                     ),
-                  )
-
-              ),
+                  )),
             ),
             Container(
                 margin: const EdgeInsets.only(left: 24),
@@ -253,8 +257,6 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  Future<List<News>> newscards = getNews();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -440,70 +442,6 @@ class AccPage extends StatefulWidget {
 
 class _AccPageState extends State<AccPage> {
   TextEditingController numbercontroller = TextEditingController();
-  Future<void> handleAcc() async {
-    String pnumber = numbercontroller.text;
-    print(pnumber);
-    if (pnumber == '911') {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-                title: Text("Что-то пошло не так",
-                    textAlign: TextAlign.center,
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 54, 54, 54),
-                      fontSize: 16,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w400,
-                    )),
-                content: SingleChildScrollView(
-                    child: ListBody(children: <Widget>[
-                  Text("Проверьте введенные Вами данные, номер 911 недопустим",
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 54, 54, 54),
-                        fontSize: 14,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w400,
-                      ))
-                ])));
-          });
-    }
-    else if (pnumber.isEmpty || pnumber.length < 11 || pnumber.length > 13) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-                title: Text("Что-то пошло не так",
-                    textAlign: TextAlign.center,
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 54, 54, 54),
-                      fontSize: 16,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w400,
-                    )),
-                content: SingleChildScrollView(
-                    child: ListBody(children: <Widget>[
-                      Text("Введите полный номер",
-                          textAlign: TextAlign.center,
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 54, 54, 54),
-                            fontSize: 14,
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w400,
-                          ))
-                    ])));
-          });
-    }else {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('number', pnumber);
-      print(pnumber);
-    }
-  }
 
   // Функция для обработки нажатия кнопки "Выйти"
   Future<void> exitAcc() async {
@@ -523,12 +461,12 @@ class _AccPageState extends State<AccPage> {
             icon: const Icon(
               Icons.arrow_back,
               color: Color.fromARGB(255, 102, 83, 160),
-              size: 32,
+              size: 24,
             )),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(248, 248, 248, 248),
         title: const Text(
-          'Аккаунт',
+          'Профиль',
           style: TextStyle(
             color: Color.fromARGB(255, 62, 62, 62),
             fontSize: 20,
@@ -545,7 +483,7 @@ class _AccPageState extends State<AccPage> {
             Container(
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: 36),
               child: const Text(
-                'Изменить настройки',
+                'Номер телефона',
                 style: TextStyle(
                   color: Color.fromARGB(255, 85, 85, 85),
                   fontSize: 24,
@@ -555,47 +493,25 @@ class _AccPageState extends State<AccPage> {
               ),
             ),
             Container(
+              width: 1000,
+              height: 64,
+              padding: const EdgeInsets.only(
+                  left: 14, right: 24, bottom: 20, top: 20),
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: 36),
-              child: TextField(
-                  controller: numbercontroller,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: "Номер телефона",
-                    hintText: "Ваш номер телефона",
-                    border: const OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        numbercontroller.clear();
-                      },
-                    ),
-                  )),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
-              child: SizedBox(
-                width: 160,
-                child: ElevatedButton(
-                  onPressed: () {
-                    handleAcc();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 102, 83, 160),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                      )),
-                  child: const Text(
-                    'Сохранить',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 14,
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.grey, // Set border color
+                    width: 1.0), // Set border width
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(4.0)), // Set rounded corner radius
+              ),
+              child: Text(
+                "+$permnumber",
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 85, 85, 85),
+                  fontSize: 16,
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
